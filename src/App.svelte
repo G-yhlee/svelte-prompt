@@ -129,6 +129,7 @@
 	const scroll$ = merge(
 		fromEvent(document,'mousewheel'),
 		fromEvent(document,'wheel'),
+		fromEvent(document,'scroll'),
 	).pipe(
 		
 		throttleTime(60),
