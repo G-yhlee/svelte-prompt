@@ -133,7 +133,11 @@
 	).pipe(
 		
 		throttleTime(60),
-		map( s=> s.deltaY > 0 ? 1 : -1 )
+		map( s=> {
+		if(s.deltaY) { return  s.deltaY > 0 ? 1 : -1 }
+		if(s.scrollY) { return  s.scrollY > 0 ? 1 : -1 }
+		}
+		)
 	)
 
 
