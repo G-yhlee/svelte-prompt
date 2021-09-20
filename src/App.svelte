@@ -1,7 +1,7 @@
 <script>
 	import { bufferCount, concat, filter, from, fromEvent, map, mapTo, merge, mergeMap, pluck, range, scan, skipLast, startWith, throttleTime, toArray } from 'rxjs';
 	const lines = [
-		"이들을 쉽게 설명하는 자료들도 많지 않거든요!",
+		"이들을 쉽게 설명하는 자료들도 많지 않거든요..!",
 		"이건 시청자들에게 너무 불친절 하다 싶더라고요",
 		"그래서 이러한 앱을 만들게 되었습니다",
 		"이처럼 자막 모양의 프롬프터를 만들어서",
