@@ -1,9 +1,14 @@
 <script>
+
+import {STATE_S,F_onWrite} from '../lib/store/store.js'
+import {onWrite} from '../lib/store/onWrite.js'
 </script>
 
 <div id="container">
 	<div id="item">
-		<textarea id="sheet" class="sheet" tabindex="0" spellcheck="false" placeholder="Write now..."></textarea>
+		<textarea id="sheet" class="sheet" tabindex="0" spellcheck="false" placeholder="Write now..." autofocus
+		data-target="onWrite" data-y={$STATE_S.onWrite} on:keyup={onWrite} 
+		></textarea>
 	</div>
 </div>
 

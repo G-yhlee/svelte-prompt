@@ -1,120 +1,15 @@
 <script>
 	import { bufferCount, concat, filter, from, fromEvent, map, mapTo, merge, mergeMap, pluck, range, scan, skipLast, startWith, throttleTime, toArray } from 'rxjs';
+	import {STATE_S} from '../lib/store/store.js'
 	const lines = [
 		"이들을 쉽게 설명하는 자료들도 많지 않거든요..!",
 		"이건 시청자들에게 너무 불친절 하다 싶더라고요",
 		"그래서 이러한 앱을 만들게 되었습니다",
 		"이처럼 자막 모양의 프롬프터를 만들어서",
-		"이걸 읽어가면서 동시에 화면도 녹화한다음 ",
-		"화려 강산",
-		"대한 사람 대한으로",
-		"길이 보전하세",
-		"남산 위의 저 소나무",
-		"철갑을 두른 듯",
-		"바람 서리 불변함은",
-		"우리 기상일세",
-		'무궁화 삼천리',
-		'화려 강산',
-		'대한 사람 대한으로',
-		'길이 보전하세',
-		"동해물과 백두산이",
-		"마르고 닳도록",
-		"하느님이 보우하사",
-		"우리나라 만세",
-		"무궁화 삼천리",
-		"화려 강산",
-		"대한 사람 대한으로",
-		"길이 보전하세",
-		"남산 위의 저 소나무",
-		"철갑을 두른 듯",
-		"바람 서리 불변함은",
-		"우리 기상일세",
-		'무궁화 삼천리',
-		'화려 강산',
-		'대한 사람 대한으로',
-		'길이 보전하세',
-		"동해물과 백두산이",
-		"마르고 닳도록",
-		"하느님이 보우하사",
-		"우리나라 만세",
-		"무궁화 삼천리",
-		"화려 강산",
-		"대한 사람 대한으로",
-		"길이 보전하세",
-		"남산 위의 저 소나무",
-		"철갑을 두른 듯",
-		"바람 서리 불변함은",
-		"우리 기상일세",
-		'무궁화 삼천리',
-		'화려 강산',
-		'대한 사람 대한으로',
-		'길이 보전하세',
-		"동해물과 백두산이",
-		"마르고 닳도록",
-		"하느님이 보우하사",
-		"우리나라 만세",
-		"무궁화 삼천리",
-		"화려 강산",
-		"대한 사람 대한으로",
-		"길이 보전하세",
-		"남산 위의 저 소나무",
-		"철갑을 두른 듯",
-		"바람 서리 불변함은",
-		"우리 기상일세",
-		'무궁화 삼천리',
-		'화려 강산',
-		'대한 사람 대한으로',
-		'길이 보전하세',
-		"동해물과 백두산이",
-		"마르고 닳도록",
-		"하느님이 보우하사",
-		"우리나라 만세",
-		"무궁화 삼천리",
-		"화려 강산",
-		"대한 사람 대한으로",
-		"길이 보전하세",
-		"남산 위의 저 소나무",
-		"철갑을 두른 듯",
-		"바람 서리 불변함은",
-		"우리 기상일세",
-		'무궁화 삼천리',
-		'화려 강산',
-		'대한 사람 대한으로',
-		'길이 보전하세',
-		"동해물과 백두산이",
-		"마르고 닳도록",
-		"하느님이 보우하사",
-		"우리나라 만세",
-		"무궁화 삼천리",
-		"화려 강산",
-		"대한 사람 대한으로",
-		"길이 보전하세",
-		"남산 위의 저 소나무",
-		"철갑을 두른 듯",
-		"바람 서리 불변함은",
-		"우리 기상일세",
-		'무궁화 삼천리',
-		'화려 강산',
-		'대한 사람 대한으로',
-		'길이 보전하세',
-		"동해물과 백두산이",
-		"마르고 닳도록",
-		"하느님이 보우하사",
-		"우리나라 만세",
-		"무궁화 삼천리",
-		"화려 강산",
-		"대한 사람 대한으로",
-		"길이 보전하세",
-		"남산 위의 저 소나무",
-		"철갑을 두른 듯",
-		"바람 서리 불변함은",
-		"우리 기상일세",
-		'무궁화 삼천리',
-		'화려 강산',
-		'대한 사람 대한으로',
-		'길이 보전하세',
 	]
 
+	console.log($STATE_S.onWrite)
+	// let lines = $STATE_S.onWrite
 	const key$ = fromEvent(document, 'keydown').pipe(
 		pluck('key'),
 		filter(k=>k.includes('Arrow')),
@@ -130,7 +25,6 @@
 		fromEvent(document,'mousewheel'),
 		fromEvent(document,'wheel'),
 	).pipe(
-		
 		throttleTime(60),
 		map( s=>  s.deltaY > 0 ? 1 : -1 )
 	)
@@ -143,26 +37,38 @@
 
 	const spaces = 4
 	const spaces$ = range(0,spaces).pipe(mapTo(' '))
-	const lines$ = concat(
+	const lines$ = (lines)=> concat(
 		spaces$,from(lines),spaces$
 	).pipe(
 		bufferCount(spaces*2+1,1),
 		skipLast(spaces*2),
 		toArray()
 	)
-	const final$ = inputs$.pipe(
+
+
+	const final$ = (lines)=>inputs$.pipe(
 		scan((acc,cur) => {
 			return Math.min(Math.max(acc +=cur,0),lines.length -1)
 		}),
 		mergeMap(cursor => {
-			return lines$.pipe(
+			return lines$(lines).pipe(
 				map(s=>s[cursor])
 			)
 		})
 	)
 
 	let texts;
-	final$.subscribe((k) =>{ console.log(k); texts = k}) ;
+	// final$($STATE_S.onWrite).subscribe((k) =>{ console.log(k); texts = k}) ;
+
+$: { 
+  ( 
+    {
+      F_01: ()=> "",
+      F_10: ()=>"",
+	  _: (lines)=> final$(lines).subscribe((k) =>{ console.log(k); texts = k}) 
+    }[ "_" ]($STATE_S.onWrite)
+  );
+}
 
 </script>
 
@@ -178,7 +84,7 @@
 
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 #container {
 	display: grid;
 	position: fixed;
