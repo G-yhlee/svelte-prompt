@@ -1,6 +1,6 @@
 <script>
 	import { bufferCount, concat, filter, from, fromEvent, map, mapTo, merge, mergeMap, pluck, range, scan, skipLast, startWith, throttleTime, toArray } from 'rxjs';
-	import {STATE_S} from '../lib/store/store.js'
+	import {STATE_S,F_onWrite, F_onWrite_trigger, F_onDone} from '../lib/store/store.js'
 	const lines = [
 		"이들을 쉽게 설명하는 자료들도 많지 않거든요..!",
 		"이건 시청자들에게 너무 불친절 하다 싶더라고요",
@@ -25,13 +25,14 @@
 		fromEvent(document,'mousewheel'),
 		fromEvent(document,'wheel'),
 	).pipe(
-		throttleTime(60),
+		throttleTime(100),
 		map( s=>  s.deltaY > 0 ? 1 : -1 )
 	)
 
 
 	const inputs$ = merge(
-		key$,scroll$
+		key$,
+		// scroll$
 	).pipe(startWith(0))
 
 
@@ -57,16 +58,28 @@
 		})
 	)
 
-	let texts;
+	let texts = [];
+	let t;
+	// setInterval(() => {
+	// 	t = $F_onWrite
+	// }, 1000);
 	// final$($STATE_S.onWrite).subscribe((k) =>{ console.log(k); texts = k}) ;
+
+
+	// final$($F_onWrite).subscribe((k) =>{ console.log(k); texts = k}) 	
+
+	// setTimeout(() => {
+	// 	final$($F_onWrite).subscribe((k) =>{ console.log(k); texts = k}) 		
+	// }, 3000);
+
 
 $: { 
   ( 
     {
       F_01: ()=> "",
       F_10: ()=>"",
-	  _: (lines)=> final$(lines).subscribe((k) =>{ console.log(k); texts = k}) 
-    }[ "_" ]($STATE_S.onWrite)
+	  _: (lines)=> final$([$F_onWrite].map(str=>str.split(/\r?\n/) )[0]).subscribe((k) =>{ console.log(k); texts = k}) 
+    }[ "_" ]($F_onWrite)
   );
 }
 
