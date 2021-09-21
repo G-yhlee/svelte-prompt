@@ -31,6 +31,12 @@ $: { // onvideo
 
 </div>
 
+<svelte:head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+    </style>
+</svelte:head>
+
 <div id="footer">
 	<div  id="button" data-target="onDone" data-y={$STATE_S.onDone} on:click={onDone} >{e_onDone}</div>
 </div>
