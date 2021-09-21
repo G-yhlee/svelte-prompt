@@ -58,18 +58,5 @@
     transition: transform var(--transition-duration) ease;
 }
 
-#button{
-	font-size: 18px;
-	color: rgb(153, 153, 177,0.4);
-	font-family: 'Jua', sans-serif;
-	height: 100%;
-	width: 100%;
-	background-color: transparent;
-	transition: 0.5s;
-}
-#button:hover{
-	color: white;
-	
 
-}
 </style>
