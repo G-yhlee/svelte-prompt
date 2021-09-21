@@ -3,16 +3,13 @@
 
 <div id="container">
 	<div id="item">
-		<textarea id="sheet" class="sheet" tabindex="0" spellcheck="true" placeholder="Write now..."></textarea>
+		<textarea id="sheet" class="sheet" tabindex="0" spellcheck="false" placeholder="Write now..."></textarea>
 	</div>
 </div>
 
-<div id="footer">
-	<button  id="button" >Done</button>
-</div>
 
 <style>
-	@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 #container {
 	display: grid;
 	position: fixed;
@@ -60,13 +57,7 @@
     overflow-y: scroll;
     transition: transform var(--transition-duration) ease;
 }
-#footer{
-	position: absolute;
-	bottom: 0;
-	height: 10%;
-	width: 100%;
-	z-index: 12;
-}
+
 #button{
 	font-size: 18px;
 	color: rgb(153, 153, 177,0.4);
